@@ -57,10 +57,14 @@
             <div class="form-group">
                 <strong>Permission:</strong>
                 <br/>
+                <?php $count = 0; ?>
                 @foreach($permission as $value)
+                <?php $count = $count + 1; ?>
                     <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                    {{ $value->name }}</label>
-                <br/>
+                    {{ $value->name }} &nbsp;&nbsp; </label>
+                    <?php if($count == 4){ ?>
+                    <br/>
+                <?php $count = 0; } ?>
                 @endforeach
             </div>
 

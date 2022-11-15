@@ -61,17 +61,21 @@
           @error('name')<div class="error">{{ $message }}</div>@enderror
         </div>
 
-    <div class="">
         <div class="form-group">
             <strong>Permission:</strong>
             <br/>
+            <?php $count = 0; ?>
             @foreach($permission as $value)
+            <?php $count = $count + 1; ?>
                 <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                {{ $value->name }}</label>
-            <br/>
+                {{ $value->name }} &nbsp;&nbsp;</label>
+            <?php if($count == 4){ ?>
+                <br/>
+            <?php $count = 0; } ?>
             @endforeach
         </div>
-    </div>
+        
+
     <button type="submit" class="btn btn-primary">Update</button>
 </div>
 {!! Form::close() !!}
