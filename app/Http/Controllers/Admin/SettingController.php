@@ -20,6 +20,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use Illuminate\Http\Request;
 
+// use Image;
+
 class SettingController extends Controller
 {
     /**
@@ -126,6 +128,30 @@ class SettingController extends Controller
         $setting = Setting::find($id);
 
         $setting->update($request->all());
+
+        if(isset($request['header_logo'])){
+
+            $header_logo = Helper::upload_image($request->file('header_logo'));
+
+            $data = array(
+                'header_logo'        => $header_logo,
+            );
+
+            $setting->update($data);
+
+        }
+
+        if(isset($request['footer_logo'])){
+
+            $footer_logo = Helper::upload_image($request->file('footer_logo'));
+
+            $data = array(
+                'footer_logo'        => $footer_logo,
+            );
+
+            $setting->update($data);
+
+        }
 
         Logs::add_log(Setting::getTableName(), $id, $request->all, 'edit', 1);
         return redirect()->route('settings.index')->with('success','Record Updated !');

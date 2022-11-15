@@ -40,10 +40,22 @@
     </div>
   @endif
 
+  @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+            </ul>
+        </div>
+    @endif
+
+
   <div class="card">
     
     <div class="card-body">
-      <form name="add-blog-post-form" id="add-blog-post-form" method="post" action="{{ route('settings.update', $record->id) }}">
+      <form name="add-blog-post-form" id="add-blog-post-form" method="post" enctype="multipart/form-data" action="{{ route('settings.update', $record->id) }}">
        @method('PATCH')
        @csrf
        <div class="row">
@@ -91,17 +103,32 @@
           @error('footer_text')<div class="error">{{ $message }}</div>@enderror
         </div>
 
+          <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <label for="header_logo">Header Logo</label>
+            <input type="file" class="form-control" id="header_logo" name="header_logo">
+          </div>
 
+          <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <label for="footer_logo">Footer Logo</label>
+            <input type="file" class="form-control" id="footer_logo" name="footer_logo">
+          </div>
 
-        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6">
-          <label for="header_logo">Header Logo</label>
-          <input type="file" class="form-control-file" id="header_logo" name="header_logo">
-        </div>
+          @if( !empty($record->header_logo) )
+          <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <strong>Thumbnail Header Logo </strong>
+            <br/>
+            <img src="{{ url('/thumbnail/') }}/{{ $record->header_logo }}" >
+          </div>
+          @endif
 
-        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6">
-          <label for="footer_logo">Footer Logo</label>
-          <input type="file" class="form-control-file" id="footer_logo" name="footer_logo">
-        </div>
+          @if( !empty($record->footer_logo) )
+          <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-6">
+            <strong>Thumbnail Footer Logo </strong>
+            <br/>
+            <img src="{{ url('/thumbnail/') }}/{{ $record->footer_logo }}" >
+          </div>
+          @endif
+
 
         </div>
         <!--close row -->
